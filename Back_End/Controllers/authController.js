@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const db = require('../Config/dbconfig.js');
+
 
 // Setup Nodemailer transporter
 const transporter = nodemailer.createTransport({
@@ -14,13 +16,14 @@ const transporter = nodemailer.createTransport({
 
 // Registration
 exports.register = async (req, res) => {
-  const { username, email, password, Title } = req.body;
+  const { FirstName, LastName, username, email, password, Title } = req.body;
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Corrected the create method to include the Title parameter
-    User.create(username, email, hashedPassword, Title, (err, result) => {
+    // Must 
+    User.create(FirstName, LastName, username, email, hashedPassword, Title, (err, result) => {
       if (err) {
         console.error("Error during user creation:", err); // Log the error
         return res.status(500).send("Error registering user.");
@@ -82,7 +85,7 @@ exports.forgotPassword = async (req, res) => {
       console.log("Generated reset token:", token); // Log generated token
 
       // Send the password reset email
-      const resetLink = `http://localhost:3000/reset-password?token=${token}&id=${user.id}`;
+      const resetLink = `http://localhost:3000/auth/reset-password?token=${token}&id=${user.id}`;
       const mailOptions = {
         from: 'sbusisozamowakhe18@gmail.com',
         to: email,
@@ -106,23 +109,33 @@ exports.forgotPassword = async (req, res) => {
 };
 
 // Password Reset
-exports.resetPassword = async (req, res) => {
-  const { token, id, newPassword, confirmPassword } = req.body;
 
-  if (newPassword !== confirmPassword) {
+exports.resetPassword = async (req, res) => {
+  const { token, id, password, confirmPassword } = req.body;
+  console.log("Reset Password Request Received for:", id);
+
+  // Validate that the new password and confirm password match
+  if (password !== confirmPassword) {
     return res.status(400).send("Passwords do not match.");
   }
 
   try {
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Update the password in the database for the user with the given id
-    const query = "UPDATE users SET password = ? WHERE id = ?";
-    db.query(query, [hashedPassword, id], (err, results) => {
+    // Verify token and ID and update the password
+    const query = "UPDATE users SET password = ?, reset_token = NULL, reset_token_expire = NULL WHERE id = ? AND reset_token = ? AND reset_token_expire > NOW()";
+    db.query(query, [hashedPassword, id, token], (err, results) => {
       if (err) {
         console.error("Error updating password:", err);
         return res.status(500).send("Error updating password.");
       }
+
+      // Check if the password was updated (e.g., if the token and expiration matched)
+      if (results.affectedRows === 0) {
+        return res.status(400).send("Invalid or expired token.");
+      }
+
       res.status(200).send("Password has been reset successfully.");
     });
   } catch (error) {

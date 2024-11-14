@@ -1,5 +1,6 @@
 // Back_End/routes/authRoutes.js
 const express = require('express');
+const path = require('path'); // Import path module
 const {
   register,
   login,
@@ -17,6 +18,11 @@ router.post('/login', login);
 
 // Forgot Password
 router.post('/forgot-password', forgotPassword);
+
+// In authRoutes.js
+router.get('/reset-password', (req, res) => {
+  res.redirect('/Html_Pages/PasswordReset.html');
+});
 
 // Reset Password
 router.post('/reset-password', resetPassword); // Add the reset password route

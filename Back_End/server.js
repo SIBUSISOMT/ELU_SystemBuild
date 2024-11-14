@@ -12,11 +12,13 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve static files from the "Front_End" directory
-app.use('/Front_End', express.static(path.join(__dirname, 'Front_End')));
+// Serve static files from Front_End directory
+app.use(express.static(path.join(__dirname, '../Front_End')));
+// server.js
+app.use('/Front_End', express.static(path.join(__dirname, '../Front_End')));
+ 
+app.use('/auth', authRoutes); 
 
-// Routes
-app.use('/auth', authRoutes); // Use the auth routes for user operations
 
 // Start the server
 app.listen(PORT, () => {
