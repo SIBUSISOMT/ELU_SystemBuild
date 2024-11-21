@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Boxicons -->
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+	<!-- My CSS -->
+	<link rel="stylesheet" href="/Front_End/CSS_Pages/Dashboard.css">
+	<link rel="stylesheet" href="/Front_End/CSS_Pages/ManageUsers.css">
+
+	<title>ELU System</title>
+
+<!-- SIDEBAR -->
+<section id="sidebar">
+	<a href="#" class="brand">
+		<i class='bx bxs-smile'></i>
+		<span class="text">ELU System</span>
+	</a>
+	<ul class="side-menu top">
+		<li class="active">
+			<a href="#">
+				<i class='bx bxs-dashboard'></i>
+				<span class="text">Dashboard</span>
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="bx bxs-user"></i>
+				<span class="text">Manage Users</span>
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="bx bxs-user-badge"></i>
+				<span class="text">Property Owner</span>
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="bx bxs-home"></i>
+				<span class="text">Properties</span>
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="bx bx-water"></i>
+					<span class="text">Water Allocations</span>
+			</a>
+		</li>
+		
+		<li>
+			<a href="#">
+				<i class="bx bxs-file"></i>
+				<span class="text">Reports</span>
+			</a>
+		</li>
+		<li>
+			<a href="#">
+				<i class="bx bxs-log-out"></i>
+				<span class="text">Logout</span>
+			</a>
+		</li>
+	</ul>
+</section>
+<!-- SIDEBAR -->
+
+<!-- CONTENT -->
+<section id="content">
+	<!-- NAVBAR -->
+	<nav>
+		<i class='bx bx-menu' ></i>
+		<a href="#" class="nav-link">Categories</a>
+		<form action="#">
+			<div class="form-input">
+				<input type="search" placeholder="Search...">
+				<button type="submit" class="search-btn"><i class='bx bx-search' ></i></button>
+			</div>
+		</form>
+		<input type="checkbox" id="switch-mode" hidden>
+		<label for="switch-mode" class="switch-mode"></label>
+		<a href="#" class="notification">
+			<i class='bx bxs-bell' ></i>
+		</a>
+		<a href="#" class="profile">
+			<img src="/Front_End/img/profile.png">
+		</a>
+	</nav>
+	<!-- NAVBAR -->
+
+	<!-- MAIN -->
+	<main>
+		<div class="head-title">
+			<div class="left">
+				<h1>Manage Internal Users</h1>
+				<ul class="breadcrumb">
+					<li>
+						<a href="#">Dashboard</a>
+					</li>
+					<li><i class='bx bx-chevron-right' ></i></li>
+					<li>
+						<a class="active" href="#">Home</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<section id="content">
+			<main>
+			  <h1>Manage Users</h1>
+			  <table>
+				<thead>
+				  <tr>
+					<th>ID</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Username</th>
+					<th>Email</th>
+					<th>Title</th>
+					<th>Actions</th>
+				  </tr>
+				</thead>
+				<tbody id="userTable">
+				  <!-- User data will be inserted dynamically by the backend -->
+				</tbody>
+			  </table>
+			</main>
+		  </section>
+
+	</main>
+	<!-- MAIN -->
+</section>
+<!-- CONTENT -->
+
+<!-- Modal for Editing User -->
+<div id="editModal" class="modal">
+	<div class="modal-content">
+		<span class="close">&times;</span>
+		<h2>Edit User</h2>
+		<form id="editForm">
+			<input type="hidden" id="editUserId">
+			<label for="editFirstName">First Name:</label>
+			<input type="text" id="editFirstName" required><br>
+			
+			<label for="editLastName">Last Name:</label>
+			<input type="text" id="editLastName" required><br>
+			
+			<label for="editUsername">Username:</label>
+			<input type="text" id="editUsername" required><br>
+			
+			<label for="editEmail">Email:</label>
+			<input type="email" id="editEmail" required><br>
+			
+			<label for="editTitle">Title:</label>
+			<input type="text" id="editTitle" required><br>
+
+			<button type="submit" id="updateBtn">Update</button>
+		</form>
+	</div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="modal">
+	<div class="modal-content">
+		<span class="close" id="closeDeleteModal">&times;</span>
+		<h2>Are you sure you want to delete this user?</h2>
+		<button id="confirmDeleteBtn">Yes, delete</button>
+		<button id="cancelDeleteBtn">Cancel</button>
+	</div>
+</div>
+	<script src="/Front_End/JS_Scripts/ManageUsers.js"></script>
+	<script src="/Front_End/JS_Scripts/Dashboard.js"></script>
+</body>
+</html>

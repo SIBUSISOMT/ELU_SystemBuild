@@ -1,0 +1,185 @@
+/* Modal Styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback background color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+  padding-top: 60px; /* Position the modal a bit down */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Edit Form Styles */
+form input[type="text"],
+form input[type="email"],
+form button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  box-sizing: border-box; /* Ensure padding is included in width */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  background-color: #0074d9; /* Blue for the submit button */
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+form button:hover {
+  background-color: #0056a1; /* Darker blue on hover */
+}
+
+form input:focus,
+form button:focus {
+  outline: none;
+  border: 1px solid #0056a1; /* Blue border on focus */
+}
+
+/* Delete Modal Styles */
+#deleteModal {
+  display: none; /* Hidden by default */
+}
+
+#deleteModal .modal-content {
+  text-align: center;
+  padding: 20px;
+}
+
+#confirmDeleteBtn {
+  background-color: #d9534f; /* Red background */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#confirmDeleteBtn:hover {
+  background-color: #c9302c; /* Darker red on hover */
+}
+
+#cancelDeleteBtn {
+  background-color: #5bc0de; /* Light blue for cancel */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#cancelDeleteBtn:hover {
+  background-color: #31b0d5; /* Darker blue on hover */
+}
+
+/* Table Styles */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 16px;
+  text-align: left;
+  background-color: #f9f9f9; /* Light grey background */
+}
+
+thead {
+  background-color: #0074d9; /* Blue header */
+  color: white;
+}
+
+th, td {
+  padding: 12px 15px;
+  border: 1px solid #ddd; /* Light grey border */
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2; /* Alternate light grey for rows */
+}
+
+tbody tr:nth-child(odd) {
+  background-color: white; /* White for odd rows */
+}
+
+tbody tr:hover {
+  background-color: #dbe9f9; /* Light blue hover effect */
+  cursor: pointer;
+}
+
+th {
+  font-weight: bold;
+  text-transform: uppercase;
+  border-bottom: 2px solid #0056a1; /* Darker blue border */
+}
+
+td {
+  color: #333; /* Dark grey text for readability */
+}
+
+/* Button Styles */
+button {
+  background-color: #0074d9; /* Blue background */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056a1; /* Darker blue on hover */
+}
+
+button:focus {
+  outline: none;
+}
+
+.btn-delete {
+  background-color: #d9534f; /* Red for delete */
+}
+
+.btn-delete:hover {
+  background-color: #c9302c; /* Darker red */
+}
+
+.btn-edit {
+  background-color: #0074d9; /* Blue for edit */
+}
+
+.btn-edit:hover {
+  background-color: #0056a1; /* Darker blue */
+}

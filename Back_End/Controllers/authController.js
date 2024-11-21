@@ -143,3 +143,58 @@ exports.resetPassword = async (req, res) => {
     res.status(500).send("An error occurred while resetting the password.");
   }
 };
+
+// MANAGING USERS IN DASHBOARD
+// Get all users
+exports.getAllUsers = (req, res) => {
+  User.getAllUsers((err, users) => { // Use getAllUsers instead of getAll
+    if (err) {
+      console.error("Error fetching users:", err);
+      return res.status(500).send("An error occurred while fetching users.");
+    }
+    res.json(users); // Send users as JSON
+  });
+};
+
+// Edit user
+exports.editUser = (req, res) => {
+  const userId = req.params.id;
+  const { FirstName, LastName, username, email, Title } = req.body;
+
+  User.updateUser(userId, FirstName, LastName, username, email, Title, (err, result) => { // Use updateUser
+    if (err) {
+      console.error("Error updating user:", err);
+      return res.status(500).send("An error occurred while updating user.");
+    }
+    res.status(200).send("User updated successfully.");
+  });
+};
+
+// Get a specific user by ID
+exports.getUserById = (req, res) => {
+  const userId = req.params.id; // Get user ID from URL params
+
+  User.findById(userId, (err, user) => {
+    if (err) {
+      console.error("Error fetching user:", err);
+      return res.status(500).send("An error occurred while fetching the user.");
+    }
+    if (!user) {
+      return res.status(404).send("User not found.");
+    }
+    res.json(user);  // Send user data as JSON
+  });
+};
+
+// Delete user
+exports.deleteUser = (req, res) => {
+  const userId = req.params.id;
+
+  User.deleteUser(userId, (err, result) => { // Use deleteUser
+    if (err) {
+      console.error("Error deleting user:", err);
+      return res.status(500).send("An error occurred while deleting user.");
+    }
+    res.status(200).send("User deleted successfully.");
+  });
+};
