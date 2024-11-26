@@ -156,7 +156,7 @@ exports.getAllUsers = (req, res) => {
   });
 };
 
-// Edit user
+// Edit user 
 exports.editUser = (req, res) => {
   const userId = req.params.id;
   const { FirstName, LastName, username, email, Title } = req.body;

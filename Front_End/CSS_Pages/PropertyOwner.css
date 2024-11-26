@@ -1,0 +1,265 @@
+/* General Body and Layout */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f9;
+  }
+  
+  /* Header */
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Table Styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #0074d9;
+    color: white;
+    text-transform: uppercase;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  tbody tr:nth-child(odd) {
+    background-color: white;
+  }
+  
+  tbody tr:hover {
+    background-color: #e3f2fd;
+    cursor: pointer;
+  }
+  
+  /* Button Styling */
+  button {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  
+  .btn-edit {
+    background-color: #0074d9;
+    color: white;
+  }
+  
+  .btn-edit:hover {
+    background-color: #0056a1;
+  }
+  
+  .btn-delete {
+    background-color: #d9534f;
+    color: white;
+  }
+  
+  .btn-delete:hover {
+    background-color: #c9302c;
+  }
+  
+  /* Add Property Owner Button */
+  #toggleAddFormButton {
+    display: block;
+    margin: 20px auto;
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  #toggleAddFormButton:hover {
+    background-color: #218838;
+  }
+  
+  /* Modal Styling */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    margin: 50px auto;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  }
+  
+  .modal-content h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .modal-content .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+  }
+  
+  .modal-content .close:hover {
+    color: black;
+  }
+  
+  /* Form Styling */
+  form {
+    background: none;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    max-width: 100%;
+    margin: 0;
+  }
+  
+  form input,
+  form button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  form input:focus,
+  form button:focus {
+    border-color: #0074d9;
+    outline: none;
+  }
+  
+  form button {
+    background-color: #0074d9;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+  form button:hover {
+    background-color: #0056a1;
+  }
+  
+  form input::placeholder {
+    color: #aaa;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    table {
+      font-size: 14px;
+    }
+  
+    button {
+      font-size: 12px;
+      padding: 6px 10px;
+    }
+  
+    #toggleAddFormButton {
+      font-size: 14px;
+      padding: 10px 15px;
+    }
+  
+    .modal-content {
+      width: 100%;
+      margin: 20px auto;
+    }
+  }
+  
+  /* Navbar Styling */
+  nav {
+    background-color: #343a40;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+  }
+  
+  nav i {
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  nav .nav-link {
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  
+  nav .form-input {
+    display: flex;
+    align-items: center;
+  }
+  
+  nav .form-input input {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: none;
+    margin-right: 8px;
+  }
+  
+  nav .search-btn {
+    background-color: #0074d9;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  nav .notification, nav .profile {
+    margin-left: 15px;
+  }
+  
+  nav .notification i,
+  nav .profile img {
+    font-size: 24px;
+  }
+  
+  nav .profile img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+  }
+  

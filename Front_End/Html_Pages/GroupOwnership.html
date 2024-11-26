@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/Front_End/CSS_Pages/Dashboard.css">
+  <link rel="stylesheet" href="/Front_End/CSS_Pages/ManageUsers.css">
+  <title>Manage Group Owned Properties</title>
+</head>
+<body>
+  <section id="content">
+    <!-- NAVBAR -->
+    <nav>
+      <i class='bx bx-menu'></i>
+      <a href="#" class="nav-link">Categories</a>
+      <form action="#">
+        <div class="form-input">
+          <input type="search" placeholder="Search...">
+          <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+        </div>
+      </form>
+      <a href="#" class="notification"><i class='bx bxs-bell'></i></a>
+      <a href="#" class="profile"><img src="/Front_End/img/profile.png"></a>
+    </nav>
+    <!-- MAIN -->
+    <main>
+      <div class="head-title">
+        <div class="left">
+          <h1>Manage Group Owned Properties</h1>
+          <ul class="breadcrumb">
+            <li><a href="#">Dashboard</a></li>
+            <li><i class='bx bx-chevron-right'></i></li>
+            <li><a class="active" href="#">Manage Groups</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <button class="btn-add" id="addGroupBtn">Add New Group</button>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Group Name</th>
+              <th>Description</th>
+              <th>Created By</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="groupTable">
+            <!-- Group data will be inserted dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </section>
+
+  <!-- Modals -->
+  <div id="editGroupModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Edit Group</h2>
+      <form id="editGroupForm">
+        <input type="hidden" id="editGroupId">
+        <label for="editGroupName">Group Name:</label>
+        <input type="text" id="editGroupName" required>
+        <label for="editGroupDescription">Description:</label>
+        <textarea id="editGroupDescription" required></textarea>
+        <button type="submit" id="updateGroupBtn">Update</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="deleteGroupModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Are you sure you want to delete this group?</h2>
+      <button id="confirmDeleteGroupBtn">Yes, delete</button>
+      <button id="cancelDeleteGroupBtn">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Add New Group Modal -->
+<div id="addGroupModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Add New Group</h2>
+      <form id="addGroupForm">
+        <label for="addGroupName">Group Name:</label>
+        <input type="text" id="addGroupName" required>
+        <label for="addGroupDescription">Description:</label>
+        <textarea id="addGroupDescription" required></textarea>
+        <button type="submit">Add Group</button>
+      </form>
+    </div>
+  </div>
+  
+
+  <script src="/Front_End/JS_Scripts/GroupsOwnerships.js"></script>
+</body>
+</html>
