@@ -70,5 +70,13 @@ function redirectToIndex() {
 	window.location.href = '/../Front_End/Html_Pages/ManageUsers.html';  // Redirects to the index.html page
 }
 
+function redirectToPropertyOwners() {
+	window.location.href = '/../Front_End/Html_Pages/PropertyOwner.html';  // Redirects to the index.html page
+}
+
+function redirectToIndex() {
+	window.location.href = '/../Front_End/Html_Pages/ManageUsers.html';  // Redirects to the index.html page
+}
+
 // Add event listener to the button to trigger the redirect function when clicked
 document.getElementById('redirectButton').addEventListener('click', redirectToIndex);

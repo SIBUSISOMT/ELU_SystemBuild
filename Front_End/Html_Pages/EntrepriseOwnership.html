@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/Front_End/CSS_Pages/Dashboard.css">
+  <link rel="stylesheet" href="/Front_End/CSS_Pages/ManageUsers.css">
+  <title>Manage Entity Properties</title>
+</head>
+<body>
+  <section id="content">
+    <!-- NAVBAR -->
+    <nav>
+      <i class='bx bx-menu'></i>
+      <a href="#" class="nav-link">Categories</a>
+      <form action="#">
+        <div class="form-input">
+          <input type="search" placeholder="Search...">
+          <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+        </div>
+      </form>
+      <a href="#" class="notification"><i class='bx bxs-bell'></i></a>
+      <a href="#" class="profile"><img src="/Front_End/img/profile.png"></a>
+    </nav>
+    <!-- MAIN -->
+    <main>
+      <div class="head-title">
+        <div class="left">
+          <h1>Manage Entity/Entreprise Owned Properties</h1>
+          <ul class="breadcrumb">
+            <li><a href="#">Dashboard</a></li>
+            <li><i class='bx bx-chevron-right'></i></li>
+            <li><a class="active" href="#">Manage Entity Properties</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <button class="btn-add" id="addEntityBtn">Add New Entity</button>
+        <table>
+          <thead>
+            <tr>
+              <th>Entreprise ID</th>
+              <th>Property Reference</th>
+              <th>Title Deed Number</th>
+              <th>Entreprise Name</th>
+              <th>Property Name</th>
+              <th>Location</th>
+              <th>Property Size (Hectares)</th>
+              <th>Email</th>
+              <th>Alternative Email</th>
+              <th>Contact Number</th>
+              <th>Alternative Contact Number</th>
+              <th>Area Name</th>
+              <th>Area Code</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="entityTable">
+            <!-- Entity data will be inserted dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </section>
+
+  <!-- Modals -->
+  <div id="editEntityModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Edit Entity</h2>
+      <form id="editEntityForm">
+        <input type="hidden" id="editEntityId">
+  
+        <label for="editPropertyName">Property Name:</label>
+        <input type="text" id="editPropertyName" required>
+  
+        <label for="editOwner">Entreprise Name:</label>
+        <input type="text" id="editOwner" required>
+  
+        <label for="editLocation">Location:</label>
+        <input type="text" id="editLocation" required>
+  
+        <label for="editEmail">Email:</label>
+        <input type="email" id="editEmail" required>
+  
+        <label for="editAltEmail">Alternative Email:</label>
+        <input type="email" id="editAltEmail">
+  
+        <label for="editContactNumber">Contact Number:</label>
+        <input type="tel" id="editContactNumber" required>
+  
+        <label for="editAltContactNumber">Alternative Contact Number:</label>
+        <input type="tel" id="editAltContactNumber">
+  
+        <label for="editAreaName">Area Name:</label>
+        <input type="text" id="editAreaName" required>
+  
+        <label for="editAreaCode">Area Code:</label>
+        <input type="text" id="editAreaCode" required>
+  
+        <label for="editPropertySize">Property Size (in Hectares):</label>
+        <input type="number" id="editPropertySize" step="0.01" required>
+  
+        <label for="editTitleDeedNumber">Title Deed Number:</label>
+        <input type="text" id="editTitleDeedNumber" required>
+  
+        <label for="editPropertyReference">Property Reference:</label>
+        <input type="text" id="editPropertyReference" readonly>
+  
+        <button type="submit" id="updateEntityBtn">Update</button>
+      </form>
+    </div>
+  </div>
+  
+
+  <div id="deleteEntityModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Are you sure you want to delete this entity?</h2>
+      <button id="confirmDeleteEntityBtn">Yes, delete</button>
+      <button id="cancelDeleteEntityBtn">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Add New Entity Modal -->
+  <div id="addEntityModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Add New Entity</h2>
+      <form id="addEntityForm">
+        <label for="addPropertyName">Property Name:</label>
+        <input type="text" id="addPropertyName" required>
+
+        <label for="addPropertyName">Entreprise Name:</label>
+        <input type="text" id="addPropertyName" required>
+
+        <label for="addPropertyName">Property Reference:</label>
+        <input type="text" id="addPropertyName" required>
+  
+        <label for="addLocation">Location:</label>
+        <input type="text" id="addLocation" required>
+  
+         <label for="addContactNumber">Email:</label><br>
+        <input type="tel" id="addEmail" required><br>
+  
+        <label for="addAltContactNumber">Alternative Email:</label><br>
+        <input type="tel" id="addAltEmail"><br>
+  
+        <label for="addContactNumber">Contact Number:</label><br>
+        <input type="tel" id="addContactNumber" required><br>
+  
+        <label for="addAltContactNumber">Alternative Contact Number:</label><br>
+        <input type="tel" id="addAltContactNumber"><br>
+  
+        <label for="addAreaName">Area Name:</label>
+        <input type="text" id="addAreaName" required>
+  
+        <label for="addAreaCode">Area Code:</label>
+        <input type="text" id="addAreaCode" required>
+  
+        <label for="addPropertySize">Property Size (in Hectares):</label><br>
+        <input type="number" id="addPropertySize" step="0.01" required><br>
+  
+        <label for="addTitleDeedNumber">Title Deed Number:</label>
+        <input type="text" id="addTitleDeedNumber" required>
+  
+        <button type="submit" id="addEntityBtn">Add Entity</button>
+      </form>
+    </div>
+  </div>
+  
+  
+
+  <script src="/Front_End/JS_Scripts/EntrepriseOwnership.js"></script>
+</body>
+</html>
