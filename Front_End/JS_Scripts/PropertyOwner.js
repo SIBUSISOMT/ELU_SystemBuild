@@ -1,12 +1,31 @@
 const BASE_URL = 'http://localhost:3000';
 
+// Function to fetch latest property reference
+async function fetchLatestPropertyReference() {
+  try {
+    const response = await fetch(`${BASE_URL}/api/properties/latest-reference`);
+    if (!response.ok) throw new Error('Failed to fetch latest property reference');
+    const data = await response.json();
+    return data.property_reference;
+  } catch (error) {
+    console.error('Error fetching latest property reference:', error);
+    return null;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   // Fetch property owners data from the backend and populate the table
   try {
     const response = await fetch(`${BASE_URL}/api/property-owners`);
+    if (!response.ok) throw new Error('Network response was not ok');
     const propertyOwners = await response.json();
     
     const tableBody = document.getElementById('propertyOwnersTable');
+    if (!tableBody) {
+      console.error('Table body element not found');
+      return;
+    }
+    
     tableBody.innerHTML = ''; // Clear existing rows
     
     propertyOwners.forEach(owner => {
@@ -32,96 +51,121 @@ document.addEventListener('DOMContentLoaded', async () => {
         </td>
       `;
       tableBody.appendChild(row);
-
     });
   } catch (error) {
     console.error('Error fetching property owners:', error);
+    const tableBody = document.getElementById('propertyOwnersTable');
+    if (tableBody) {
+      tableBody.innerHTML = '<tr><td colspan="15">Error loading property owners. Please try again later.</td></tr>';
+    }
   }
 
   // Handle 'Add Property Owner' button click
-  document.getElementById('toggleAddFormButton').addEventListener('click', () => {
-    document.getElementById('ownershipTypeModal').style.display = 'block';
-  });
+  const addButton = document.getElementById('toggleAddFormButton');
+  if (addButton) {
+    addButton.addEventListener('click', () => {
+      showIndividualPropertyOwnerForm();
+    });
+  }
 
-  // Handle 'Ownership Type' selection
-  document.getElementById('selectOwnershipTypeButton').addEventListener('click', () => {
-    const selectedType = document.getElementById('ownershipTypeSelect').value;
-    showAddPropertyOwnerForm(selectedType);
-  });
+
+  const typeButton = document.getElementById('selectOwnershipTypeButton');
+  if (typeButton) {
+    typeButton.addEventListener('click', () => {
+      const selectedType = document.getElementById('ownershipTypeSelect').value;
+      showAddPropertyOwnerForm(selectedType);
+    });
+  }
 
   // Close modals when clicking the close icon
   document.querySelectorAll('.close').forEach(button => {
     button.addEventListener('click', () => {
-      document.getElementById('addPropertyOwnerModal').style.display = 'none';
-      document.getElementById('ownershipTypeModal').style.display = 'none';
+      const modal = document.getElementById('addPropertyOwnerModal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
     });
   });
 
   // Add Property Owner Form Submission
-  document.getElementById('addPropertyOwnerForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    // Ensure that the form field names match the expected keys in the backend
-    const propertyOwnerData = {
-      property_reference: document.getElementById('ownerReference').value,
-      title_deed_number: document.getElementById('TitleDeedNumber').value,
-      title_deed_holder_name: document.getElementById('ownerName').value,
-      title_deed_holder_surname: document.getElementById('ownerSurname').value,
-      residential_area_name: document.getElementById('ResidentialAreaName').value,
-      residential_area_code: document.getElementById('ResidentialAreaCode').value,
-      email: document.getElementById('Email').value,
-      alternate_email: document.getElementById('AlternateEmail').value || null,
-      contact_number: document.getElementById('ContactNumber').value,
-      alternate_contact_number: document.getElementById('ConfirmContactNumber').value || null,
-      id_number: document.getElementById('IDNumber').value,
-      catchment: document.getElementById('catchment').value,
-      sub_catchment: document.getElementById('subCatchment').value,
-    };
+  const form = document.getElementById('addPropertyOwnerForm');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      //  updated propertyOwnerData object:
+const propertyOwnerData = {
+  catchment: document.getElementById('catchment').value,
+  subCatchment: document.getElementById('subCatchment').value,
+  ownerName: document.getElementById('ownerName').value,
+  ownerSurname: document.getElementById('ownerSurname').value,
+  propertyReference: document.getElementById('ownerReference').value,
+  titleDeedNumber: document.getElementById('TitleDeedNumber').value,
+  residentialAreaName: document.getElementById('ResidentialAreaName').value,
+  residentialAreaCode: document.getElementById('ResidentialAreaCode').value,
+  idNumber: document.getElementById('IDNumber').value,
+  email: document.getElementById('Email').value,
+  alternateEmail: document.getElementById('AlternateEmail').value || null,
+  contactNumber: document.getElementById('ContactNumber').value,
+  alternateContactNumber: document.getElementById('ConfirmContactNumber').value || null
+};
 
-    console.log(JSON.stringify(propertyOwnerData, null, 2));
+  
 
-    // Logging the propertyOwnerData to confirm the keys match
-    console.log('Property Owner Data:', propertyOwnerData);
+      try {
+        const response = await fetch(`${BASE_URL}/api/property-owners`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(propertyOwnerData)
+        });
 
-    try {
-      const response = await fetch(`${BASE_URL}/api/property-owners`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(propertyOwnerData)
-      });
-
-      if (response.ok) {
-        const newOwner = await response.json();
-        alert('Property Owner Added Successfully!');
-        
-        document.getElementById('addPropertyOwnerModal').style.display = 'none';
-        location.reload(); // Refresh the page
-      } else {
-        const errorData = await response.json();
-        alert(`Error: ${errorData.message}`);
+        if (response.ok) {
+          const newOwner = await response.json();
+          alert('Property Owner Added Successfully!');
+          
+          const modal = document.getElementById('addPropertyOwnerModal');
+          if (modal) {
+            modal.style.display = 'none';
+          }
+          location.reload();
+        } else {
+          const errorData = await response.json();
+          alert(`Error: ${errorData.message}`);
+        }
+      } catch (error) {
+        console.error('Error adding property owner:', error);
+        alert('Failed to add property owner');
       }
-    } catch (error) {
-      console.error('Error adding property owner:', error);
-      alert('Failed to add property owner');
-    }
-  });
+    });
+  }
 });
 
-// Function to show the Add Property Owner Form based on ownership type
-function showAddPropertyOwnerForm(type) {
-  const form = document.getElementById('addPropertyOwnerForm');
-  form.innerHTML = '';  // Clear any existing fields
-  if (type === 'individual') {
+// Function to show the Add Property Owner Form
+async function showIndividualPropertyOwnerForm() {
+  try {
+    const latestPropertyReference = await fetchLatestPropertyReference();
+    
+    const form = document.getElementById('addPropertyOwnerForm');
+    if (!form) {
+      console.error('Form element not found');
+      return;
+    }
+
     form.innerHTML = ` 
       <h2>Add Individual Property Owner</h2>
+      <label for="ownerReference">Property Reference:</label>
+      <input type="text" id="ownerReference" value="${latestPropertyReference || ''}" readonly 
+             style="background-color: #f0f0f0;"> <br>
+      
       <label for="catchment">Select Catchment:</label>
       <select id="catchment" required>
         <option value="">--None--</option>
         <option value="Komati">Komati</option>
         <option value="Usuthu">Usuthu</option>
       </select> <br>
+      
       <label for="subCatchment">Select Sub-Catchment:</label>
       <select id="subCatchment" required>
         <option value="">--None--</option>
@@ -130,44 +174,54 @@ function showAddPropertyOwnerForm(type) {
         <option value="Upper Komati">Upper Komati</option>
         <option value="Crocodile">Crocodile</option>
       </select> <br>
+      
       <label for="ownerName">Name:</label>
       <input type="text" id="ownerName" required> <br>
+      
       <label for="ownerSurname">Surname:</label>
       <input type="text" id="ownerSurname" required> <br>
-      <label for="ownerReference">Property Reference:</label>
-      <input type="text" id="ownerReference" required> <br>
+      
       <label for="TitleDeedNumber">Title Deed Number:</label>
       <input type="text" id="TitleDeedNumber" required> <br>
+      
       <label for="ResidentialAreaName">Residential Area Name:</label>
       <input type="text" id="ResidentialAreaName" required> <br>
+      
       <label for="ResidentialAreaCode">Residential Area Code:</label>
       <input type="text" id="ResidentialAreaCode" required> <br>
+      
       <label for="IDNumber">Identity Number:</label>
       <input type="text" id="IDNumber" required> <br>
+      
       <label for="Email">Email:</label>
       <input type="email" id="Email" required> <br>
+      
       <label for="AlternateEmail">Alternate Email:</label>
       <input type="email" id="AlternateEmail"> <br>
+      
       <label for="ContactNumber">Contact Number:</label>
       <input type="text" id="ContactNumber" required> <br>
+      
       <label for="ConfirmContactNumber">Alternate Contact Number:</label>
       <input type="text" id="ConfirmContactNumber"> <br>
+      
       <button type="submit">Add Property Owner</button>
-    `; 
-
-  } else if (type === 'entity') {
-    window.location.href = "/Front_End/Html_Pages/EntrepriseOwnership.html";
-  } else if (type === 'group') {
-    window.location.href = "/Front_End/Html_Pages/GroupOwnership.html";
+    `;
+  
+    const modal = document.getElementById('addPropertyOwnerModal');
+    if (modal) {
+      modal.style.display = 'block';
+    }
+  } catch (error) {
+    console.error('Error showing property owner form:', error);
+    alert('Error loading the form. Please try again.');
   }
-  // Show the Add Property Owner modal after injecting fields
-  document.getElementById('ownershipTypeModal').style.display = 'none';
-  document.getElementById('addPropertyOwnerModal').style.display = 'block';
 }
-// Function to edit property owner (to be implemented)
+
+// Function to edit property owner
 async function editPropertyOwner(id) {
   try {
-    const response = await fetch(`/api/property-owners/${id}`);
+    const response = await fetch(`${BASE_URL}/api/property-owners/${id}`);
     const owner = await response.json();
     
     // Populate edit form or open edit modal with owner details
@@ -183,13 +237,13 @@ async function deletePropertyOwner(id) {
   
   if (confirmDelete) {
     try {
-      const response = await fetch(`/api/property-owners/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/property-owners/${id}`, {
         method: 'DELETE'
       });
 
       if (response.ok) {
         alert('Property Owner Deleted Successfully!');
-        location.reload(); // Refresh table
+        location.reload();
       } else {
         const errorData = await response.json();
         alert(`Error: ${errorData.message}`);

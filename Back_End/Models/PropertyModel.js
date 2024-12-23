@@ -3,13 +3,45 @@ const db = require('../config/dbConfig');
 // Fetch all properties
 exports.getAllProperties = (callback) => {
     const query = 'SELECT * FROM properties';
-    db.query(query, (err, results) => callback(err, results));
+    db.query(query, (err, results) => {
+        if (err) return callback(err, null);
+        
+        // Map the database column names to the frontend property names
+        const mappedResults = results.map(property => ({
+            id: property.id,
+            propertyReference: property.Property_Reference,
+            warmsNumber: property.Warms_Number,
+            titleDeedNumber: property.Title_Deed_Number,
+            subCatchmentName: property.Sub_Catchment_Name,
+            propertyAreaName: property.Property_Area_Name,
+            propertyAreaCode: property.Property_Area_Code,
+            farmSizeHA: property.Farm_Size_HA
+        }));
+        
+        callback(null, mappedResults);
+    });
 };
 
 // Fetch a single property by ID
 exports.getPropertyById = (id, callback) => {
     const query = 'SELECT * FROM properties WHERE id = ?';
-    db.query(query, [id], (err, results) => callback(err, results[0]));
+    db.query(query, [id], (err, results) => {
+        if (err) return callback(err, null);
+        if (results.length === 0) return callback(null, null);
+        
+        const property = {
+            id: results[0].id,
+            propertyReference: results[0].Property_Reference,
+            warmsNumber: results[0].Warms_Number,
+            titleDeedNumber: results[0].Title_Deed_Number,
+            subCatchmentName: results[0].Sub_Catchment_Name,
+            propertyAreaName: results[0].Property_Area_Name,
+            propertyAreaCode: results[0].Property_Area_Code,
+            farmSizeHA: results[0].Farm_Size_HA
+        };
+        
+        callback(null, property);
+    });
 };
 
 // Create a new property

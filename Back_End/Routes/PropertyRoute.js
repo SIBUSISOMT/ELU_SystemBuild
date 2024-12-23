@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const PropertyController = require('../controllers/PropertyController');
 
+// Place the latest-reference route BEFORE the /:id route
+router.get('/latest-reference', PropertyController.getLatestPropertyReference);
+
 // Get all properties
 router.get('/', PropertyController.getAllProperties);
 

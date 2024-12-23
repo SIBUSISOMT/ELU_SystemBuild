@@ -40,62 +40,148 @@
         <button class="btn-add" id="addGroupBtn">Add New Group</button>
         <table>
           <thead>
-            <tr>
-              <th>ID</th>
-              <th>Group Name</th>
-              <th>Description</th>
-              <th>Created By</th>
-              <th>Actions</th>
-            </tr>
+              <tr>
+                  <th>ID</th>
+                  <th>Group Name</th>
+                  <th>Description</th>
+                  <th>Email</th>
+                  <th>Alternative Email</th>
+                  <th>Contact Number</th>
+                  <th>Alternative Contact</th>
+                  <th>Area Name</th>
+                  <th>Area Code</th>
+                  <th>Property Reference</th>
+                  <th>Registration Number</th>
+                  <th>Group Type</th>
+                  <th>Member Count</th>
+                  <th>Created By</th>
+                  <th>Created At</th>
+                  <th>Actions</th>
+              </tr>
           </thead>
           <tbody id="groupTable">
-            <!-- Group data will be inserted dynamically -->
+              <!-- Group data will be inserted dynamically -->
           </tbody>
-        </table>
+      </table>
       </div>
     </main>
   </section>
 
   <!-- Modals -->
-  <div id="editGroupModal" class="modal">
-    <div class="modal-content">
+  <!-- Edit Group Modal -->
+<div id="editGroupModal" class="modal">
+  <div class="modal-content">
       <span class="close">&times;</span>
       <h2>Edit Group</h2>
       <form id="editGroupForm">
-        <input type="hidden" id="editGroupId">
-        <label for="editGroupName">Group Name:</label>
-        <input type="text" id="editGroupName" required>
-        <label for="editGroupDescription">Description:</label>
-        <textarea id="editGroupDescription" required></textarea>
-        <button type="submit" id="updateGroupBtn">Update</button>
+          <input type="hidden" id="editGroupId">
+          
+          <label for="editGroupName">Group Name:</label>
+          <input type="text" id="editGroupName" required>
+          
+          <label for="editGroupDescription">Description:</label>
+          <textarea id="editGroupDescription"></textarea>
+          
+          <label for="editEmail">Email:</label>
+          <input type="email" id="editEmail" required>
+          
+          <label for="editAlternativeEmail">Alternative Email:</label>
+          <input type="email" id="editAlternativeEmail">
+          
+          <label for="editContactNumber">Contact Number:</label>
+          <input type="tel" id="editContactNumber" required>
+          
+          <label for="editAlternativeContact">Alternative Contact:</label>
+          <input type="tel" id="editAlternativeContact">
+          
+          <label for="editAreaName">Area Name:</label>
+          <input type="text" id="editAreaName">
+          
+          <label for="editAreaCode">Area Code:</label>
+          <input type="text" id="editAreaCode">
+          
+          <label for="editPropertyReference">Property Reference:</label>
+          <input type="text" id="editPropertyReference">
+          
+          <label for="editGroupRegistrationNumber">Group Registration Number:</label>
+          <input type="text" id="editGroupRegistrationNumber">
+          
+          <label for="editGroupType">Group Type:</label>
+          <select id="editGroupType" required>
+              <option value="">Select Group Type</option>
+              <option value="Company">Company</option>
+              <option value="Trust">Trust</option>
+              <option value="Cooperative">Cooperative</option>
+              <option value="Non-Profit">Non-Profit</option>
+              <option value="Other">Other</option>
+          </select>
+          
+          <label for="editMemberCount">Member Count:</label>
+          <input type="number" id="editMemberCount" min="0">
+          
+          <button type="submit" id="updateGroupBtn">Update</button>
       </form>
-    </div>
   </div>
+</div>
 
-  <div id="deleteGroupModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Are you sure you want to delete this group?</h2>
-      <button id="confirmDeleteGroupBtn">Yes, delete</button>
-      <button id="cancelDeleteGroupBtn">Cancel</button>
-    </div>
-  </div>
-
-  <!-- Add New Group Modal -->
+<!-- Add New Group Modal -->
 <div id="addGroupModal" class="modal">
-    <div class="modal-content">
+  <div class="modal-content">
       <span class="close">&times;</span>
       <h2>Add New Group</h2>
       <form id="addGroupForm">
-        <label for="addGroupName">Group Name:</label>
-        <input type="text" id="addGroupName" required>
-        <label for="addGroupDescription">Description:</label>
-        <textarea id="addGroupDescription" required></textarea>
-        <button type="submit">Add Group</button>
+
+        <input 
+    type="text" 
+    id="property_reference" 
+    name="property_reference" 
+    readonly 
+/>
+          <label for="addGroupName">Group Name:</label>
+          <input type="text" id="addGroupName" required>
+          
+          <label for="addGroupDescription">Description:</label>
+          <textarea id="addGroupDescription"></textarea>
+          
+          <label for="addEmail">Email:</label>
+          <input type="email" id="addEmail" required>
+          
+          <label for="addAlternativeEmail">Alternative Email:</label>
+          <input type="email" id="addAlternativeEmail">
+          
+          <label for="addContactNumber">Contact Number:</label>
+          <input type="tel" id="addContactNumber" required>
+          
+          <label for="addAlternativeContact">Alternative Contact:</label>
+          <input type="tel" id="addAlternativeContact">
+          
+          <label for="addAreaName">Area Name:</label>
+          <input type="text" id="addAreaName">
+          
+          <label for="addAreaCode">Area Code:</label>
+          <input type="text" id="addAreaCode">
+          
+         
+          <label for="addGroupRegistrationNumber">Group Registration Number:</label>
+          <input type="text" id="addGroupRegistrationNumber">
+          
+          <label for="addGroupType">Group Type:</label>
+          <select id="addGroupType" required>
+              <option value="">Select Group Type</option>
+              <option value="Company">Company</option>
+              <option value="Trust">Trust</option>
+              <option value="Cooperative">Cooperative</option>
+              <option value="Non-Profit">Non-Profit</option>
+              <option value="Other">Other</option>
+          </select>
+          
+          <label for="addMemberCount">Member Count:</label>
+          <input type="number" id="addMemberCount" min="0">
+          
+          <button type="submit">Add Group</button>
       </form>
-    </div>
   </div>
-  
+</div>
 
   <script src="/Front_End/JS_Scripts/GroupsOwnerships.js"></script>
 </body>

@@ -8,6 +8,32 @@ exports.getAllProperties = (req, res) => {
     });
 };
 
+const connection = require('../config/dbConfig');
+
+// Add this new controller method
+
+
+exports.getLatestPropertyReference = (req, res) => {
+    const query = `
+      SELECT Property_Reference 
+      FROM properties 
+      ORDER BY id DESC 
+      LIMIT 1
+    `;
+  
+    connection.query(query, (err, results) => {
+      if (err) {
+        console.error('Error fetching latest property reference:', err);
+        return res.status(500).json({ 
+          message: 'Error fetching latest property reference', 
+          error: err 
+        });
+      }
+  
+      const latestReference = results.length > 0 ? results[0].Property_Reference : null;
+      res.json({ property_reference: latestReference });
+    });
+  };
 // Get a property by ID
 exports.getPropertyById = (req, res) => {
     const id = req.params.id;

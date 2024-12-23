@@ -29,28 +29,34 @@ exports.createPropertyOwner = async (req, res) => {
       alternateContactNumber
     } = req.body;
 
-    // Validate required fields
-    if (!ownerName || !propertyReference || !titleDeedNumber || !email || !catchment) {
-      return res.status(400).json({ message: 'Missing required fields' });
-    }
-
-    // Adjusting field names to match the database schema
-    const newPropertyOwner = await PropertyOwner.create({
+    // Validate all required fields
+    const requiredFields = {
       catchment,
       subCatchment,
-      title_deed_holder_name: ownerName,
-      title_deed_holder_surname: ownerSurname,
-      property_reference: propertyReference,
-      title_deed_number: titleDeedNumber,
-      residential_area_name: residentialAreaName,
-      residential_area_code: residentialAreaCode,
-      id_number: idNumber,
+      ownerName,
+      ownerSurname,
+      propertyReference,
+      titleDeedNumber,
+      residentialAreaName,
+      residentialAreaCode,
+      idNumber,
       email,
-      alternate_email: alternateEmail,
-      contact_number: contactNumber,
-      alternate_contact_number: alternateContactNumber
-    });
+      contactNumber
+    };
 
+    const missingFields = Object.entries(requiredFields)
+      .filter(([_, value]) => !value)
+      .map(([key]) => key);
+
+    if (missingFields.length > 0) {
+      return res.status(400).json({ 
+        message: 'Missing required fields', 
+        missingFields: missingFields 
+      });
+    }
+
+    // Create the property owner
+    const newPropertyOwner = await PropertyOwner.create(req.body);
     res.status(201).json(newPropertyOwner);
   } catch (error) {
     res.status(400).json({ message: 'Error creating property owner', error: error.message });

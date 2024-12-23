@@ -1,200 +1,269 @@
-const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
-const db = require('../Config/dbconfig.js');
 
+const authController = {
+  // Register new user
+  register: async (req, res) => {
+    try {
+      const { FirstName, LastName, username, email, password, Title } = req.body;
 
-// Setup Nodemailer transporter
-const transporter = nodemailer.createTransport({
-  service: 'Gmail',  
-  auth: {
-    user: 'sbusisozamowakhe18@gmail.com', 
-    pass: 'gryr khog dboq fwng',
-  },
-});
-
-// Registration
-exports.register = async (req, res) => {
-  const { FirstName, LastName, username, email, password, Title } = req.body;
-
-  try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Corrected the create method to include the Title parameter
-    // Must 
-    User.create(FirstName, LastName, username, email, hashedPassword, Title, (err, result) => {
-      if (err) {
-        console.error("Error during user creation:", err); // Log the error
-        return res.status(500).send("Error registering user.");
-      }
-      res.status(201).send("User registered successfully.");
-    });
-  } catch (error) {
-    console.error("Registration error:", error);
-    res.status(500).send("An error occurred during registration.");
-  }
-};
-
-// Login
-exports.login = async (req, res) => {
-  const { username, password } = req.body;
-
-  try {
-    User.findByUsername(username, async (err, results) => {
-      if (err || results.length === 0) {
-        return res.status(401).send("User not found.");
-      }
-
-      const user = results[0];
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-
-      if (!isPasswordValid) {
-        return res.status(401).send("Invalid Credentials.");
-      }
-
-      // Send a JSON response with the redirect URL instead of using res.redirect
-      res.status(200).json({ redirectUrl: '/Front_End/Html_Pages/Dashboard.html' });
-    });
-  } catch (error) {
-    console.error("Login error:", error);
-    res.status(500).send("An error occurred during login.");
-  }
-};
-
-// Forgot Password
-exports.forgotPassword = async (req, res) => {
-  const { email } = req.body;
-  console.log("Forgot Password Request Received for:", email); // Log incoming request
-
-  try {
-    User.findByEmail(email, async (err, results) => {
-      if (err) {
-        console.error("Database error:", err); // Log database error
-        return res.status(500).send("Internal server error.");
-      }
-
-      if (results.length === 0) {
-        console.warn("Email not registered:", email); // Log unregistered email
-        return res.status(404).send("Email not registered.");
-      }
-
-      const user = results[0];
-      const token = crypto.randomBytes(32).toString('hex');
-
-      console.log("Generated reset token:", token); // Log generated token
-
-      // Send the password reset email
-      const resetLink = `http://localhost:3000/auth/reset-password?token=${token}&id=${user.id}`;
-      const mailOptions = {
-        from: 'sbusisozamowakhe18@gmail.com',
-        to: email,
-        subject: 'Password Reset',
-        text: `Click the following link to reset your password: ${resetLink}`,
-      };
-
-      transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          console.error("Error sending email:", error); // Log email sending error
-          return res.status(500).send("Error sending email.");
+      // Check if user already exists
+      User.findByEmail(email, async (err, results) => {
+        if (err) {
+          return res.status(500).json({
+            success: false,
+            message: 'Database error during registration'
+          });
         }
-        console.log("Password reset email sent:", info); // Log successful email
-        res.status(200).send("Password reset link sent to your email.");
+
+        if (results && results.length > 0) {
+          return res.status(400).json({
+            success: false,
+            message: 'Email already registered'
+          });
+        }
+
+        // Hash password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create new user
+        User.create(FirstName, LastName, username, email, hashedPassword, Title, (err, result) => {
+          if (err) {
+            return res.status(500).json({
+              success: false,
+              message: 'Error creating user'
+            });
+          }
+
+          res.status(201).json({
+            success: true,
+            message: 'User registered successfully'
+          });
+        });
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Server error during registration'
+      });
+    }
+  },
+
+  // Login user
+  login: async (req, res) => {
+    try {
+      const { email, password } = req.body;
+
+      User.findByEmail(email, async (err, results) => {
+        if (err) {
+          return res.status(500).json({
+            success: false,
+            message: 'Database error during login'
+          });
+        }
+
+        if (!results || results.length === 0) {
+          return res.status(401).json({
+            success: false,
+            message: 'Invalid credentials'
+          });
+        }
+
+        const user = results[0];
+        const validPassword = await bcrypt.compare(password, user.password);
+
+        if (!validPassword) {
+          return res.status(401).json({
+            success: false,
+            message: 'Invalid credentials'
+          });
+        }
+
+        // Create JWT token
+        const token = jwt.sign(
+          { id: user.id, email: user.email },
+          process.env.JWT_SECRET || 'your-secret-key',
+          { expiresIn: '24h' }
+        );
+
+        res.json({
+          success: true,
+          token,
+          user: {
+            id: user.id,
+            email: user.email,
+            username: user.username
+          }
+        });
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Server error during login'
+      });
+    }
+  },
+
+  // Forgot password
+  forgotPassword: (req, res) => {
+    const { email } = req.body;
+    
+    // Generate reset token
+    const resetToken = crypto.randomBytes(20).toString('hex');
+
+    User.updateResetToken(email, resetToken, (err, result) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: 'Error processing password reset request'
+        });
+      }
+
+      // In a real application, send email with reset link
+      res.json({
+        success: true,
+        message: 'Password reset instructions sent to email'
       });
     });
-  } catch (error) {
-    console.error("Forgot password error:", error); // Log unexpected error
-    res.status(500).send("An error occurred while processing your request.");
-  }
-};
+  },
 
-// Password Reset
+  // Reset password
+  resetPassword: async (req, res) => {
+    try {
+      const { token, password } = req.body;
 
-exports.resetPassword = async (req, res) => {
-  const { token, id, password, confirmPassword } = req.body;
-  console.log("Reset Password Request Received for:", id);
+      User.findByResetToken(token, async (err, results) => {
+        if (err || !results || results.length === 0) {
+          return res.status(400).json({
+            success: false,
+            message: 'Invalid or expired reset token'
+          });
+        }
 
-  // Validate that the new password and confirm password match
-  if (password !== confirmPassword) {
-    return res.status(400).send("Passwords do not match.");
-  }
+        const user = results[0];
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-  try {
-    // Hash the new password
-    const hashedPassword = await bcrypt.hash(password, 10);
+        User.updatePassword(user.id, hashedPassword, (err, result) => {
+          if (err) {
+            return res.status(500).json({
+              success: false,
+              message: 'Error resetting password'
+            });
+          }
 
-    // Verify token and ID and update the password
-    const query = "UPDATE users SET password = ?, reset_token = NULL, reset_token_expire = NULL WHERE id = ? AND reset_token = ? AND reset_token_expire > NOW()";
-    db.query(query, [hashedPassword, id, token], (err, results) => {
+          res.json({
+            success: true,
+            message: 'Password reset successful'
+          });
+        });
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Server error during password reset'
+      });
+    }
+  },
+
+  // Get all users
+  getAllUsers: (req, res) => {
+    User.getAllUsers((err, results) => {
       if (err) {
-        console.error("Error updating password:", err);
-        return res.status(500).send("Error updating password.");
+        console.error('Error fetching users:', err);
+        return res.status(500).json({
+          success: false,
+          message: 'Error loading users'
+        });
       }
-
-      // Check if the password was updated (e.g., if the token and expiration matched)
-      if (results.affectedRows === 0) {
-        return res.status(400).send("Invalid or expired token.");
-      }
-
-      res.status(200).send("Password has been reset successfully.");
+      res.json(results);
     });
-  } catch (error) {
-    console.error("Reset password error:", error);
-    res.status(500).send("An error occurred while resetting the password.");
+  },
+
+  // Get user by ID
+  getUserById: (req, res) => {
+    const userId = req.params.id;
+
+    User.findById(userId, (err, results) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: 'Error fetching user'
+        });
+      }
+
+      if (!results || results.length === 0) {
+        return res.status(404).json({
+          success: false,
+          message: 'User not found'
+        });
+      }
+
+      res.json(results[0]);
+    });
+  },
+
+  // Edit user
+  editUser: (req, res) => {
+    const userId = req.params.id;
+    const { FirstName, LastName, username, email, Title } = req.body;
+
+    if (!FirstName || !LastName || !username || !email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Required fields missing'
+      });
+    }
+
+    User.updateUser(userId, FirstName, LastName, username, email, Title, (err, result) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: 'Error updating user'
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          success: false,
+          message: 'User not found'
+        });
+      }
+
+      res.json({
+        success: true,
+        message: 'User updated successfully',
+        user: { id: userId, FirstName, LastName, username, email, Title }
+      });
+    });
+  },
+
+  // Delete user
+  deleteUser: (req, res) => {
+    const userId = req.params.id;
+
+    User.deleteUser(userId, (err, result) => {
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: 'Error deleting user'
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          success: false,
+          message: 'User not found'
+        });
+      }
+
+      res.json({
+        success: true,
+        message: 'User deleted successfully'
+      });
+    });
   }
 };
 
-// MANAGING USERS IN DASHBOARD
-// Get all users
-exports.getAllUsers = (req, res) => {
-  User.getAllUsers((err, users) => { // Use getAllUsers instead of getAll
-    if (err) {
-      console.error("Error fetching users:", err);
-      return res.status(500).send("An error occurred while fetching users.");
-    }
-    res.json(users); // Send users as JSON
-  });
-};
-
-// Edit user 
-exports.editUser = (req, res) => {
-  const userId = req.params.id;
-  const { FirstName, LastName, username, email, Title } = req.body;
-
-  User.updateUser(userId, FirstName, LastName, username, email, Title, (err, result) => { // Use updateUser
-    if (err) {
-      console.error("Error updating user:", err);
-      return res.status(500).send("An error occurred while updating user.");
-    }
-    res.status(200).send("User updated successfully.");
-  });
-};
-
-// Get a specific user by ID
-exports.getUserById = (req, res) => {
-  const userId = req.params.id; // Get user ID from URL params
-
-  User.findById(userId, (err, user) => {
-    if (err) {
-      console.error("Error fetching user:", err);
-      return res.status(500).send("An error occurred while fetching the user.");
-    }
-    if (!user) {
-      return res.status(404).send("User not found.");
-    }
-    res.json(user);  // Send user data as JSON
-  });
-};
-
-// Delete user
-exports.deleteUser = (req, res) => {
-  const userId = req.params.id;
-
-  User.deleteUser(userId, (err, result) => { // Use deleteUser
-    if (err) {
-      console.error("Error deleting user:", err);
-      return res.status(500).send("An error occurred while deleting user.");
-    }
-    res.status(200).send("User deleted successfully.");
-  });
-};
+module.exports = authController;

@@ -1,50 +1,29 @@
-// Back_End/routes/authRoutes.js
 const express = require('express');
-const path = require('path'); // Import path module
-const userController = require('../controllers/authController'); // Adjust the path if necessary
-
-const {
-  register,
-  login,
-  forgotPassword,
-  resetPassword,
-  getAllUsers,    // New route for getting all users
-  editUser,       // New route for editing a user
-  deleteUser      // New route for deleting a user 
-} = require('../controllers/authController');
-
+const userController = require('../controllers/authController');
 const router = express.Router();
 
-// User Registration
-router.post('/register', register);
+// Authentication Routes
+router.post('/register', userController.register);
+router.post('/login', userController.login);
 
-// User Login
-router.post('/login', login);
-
-// Forgot Password
-router.post('/forgot-password', forgotPassword);
-
-// In authRoutes.js
+// Password Management Routes
+router.post('/forgot-password', userController.forgotPassword);
 router.get('/reset-password', (req, res) => {
   res.redirect('/Html_Pages/PasswordReset.html');
 });
+router.post('/reset-password', userController.resetPassword);
 
-// Reset Password
-router.post('/reset-password', resetPassword); // Add the reset password route
+// User Management Routes
+// GET all users
+router.get('/users', userController.getAllUsers);
 
+// GET single user
+router.get('/users/:id', userController.getUserById);
 
-// User Routes for managing users
-router.get('/users', getAllUsers); // Route to get all users
+// UPDATE user
+router.put('/users/:id', userController.editUser);
 
-// Route for fetching a specific user by ID
-router.get('/users/:id', userController.getUserById);  // :id allows dynamic routing for the user ID
-
-
-
-// Edit user route (using the user id as a parameter in the URL)
-router.put('/users/:id', editUser); // Route to edit a user
-
-// Delete user route (using the user id as a parameter in the URL)
-router.delete('/users/:id', deleteUser); // Route to delete a user
+// DELETE user
+router.delete('/users/:id', userController.deleteUser);
 
 module.exports = router;
