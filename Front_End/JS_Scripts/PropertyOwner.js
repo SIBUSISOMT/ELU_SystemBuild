@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     propertyOwners.forEach(owner => {
       const row = document.createElement('tr');
       row.innerHTML = `
-        <td>${owner.owner_id}</td>
+    
         <td>${owner.property_reference}</td>
         <td>${owner.title_deed_number}</td>
         <td>${owner.title_deed_holder_name}</td>
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      //  updated propertyOwnerData object:
+      //  propertyOwnerData object:
 const propertyOwnerData = {
   catchment: document.getElementById('catchment').value,
   subCatchment: document.getElementById('subCatchment').value,
@@ -205,7 +205,7 @@ async function showIndividualPropertyOwnerForm() {
       <label for="ConfirmContactNumber">Alternate Contact Number:</label>
       <input type="text" id="ConfirmContactNumber"> <br>
       
-      <button type="submit">Add Property Owner</button>
+      <button type="submit">Save</button>
     `;
   
     const modal = document.getElementById('addPropertyOwnerModal');
@@ -253,4 +253,16 @@ async function deletePropertyOwner(id) {
       alert('Failed to delete property owner');
     }
   }
+}
+
+// Navigation
+
+function toIndividual() {
+  window.location.href = '/../Front_End/Html_Pages/PropertyOwner.html';
+}
+function toGroup() {
+  window.location.href = '/../Front_End/Html_Pages/GroupOwnership.html';
+}
+function toEntreprise() {
+  window.location.href = '/../Front_End/Html_Pages/EntrepriseOwnership.html';
 }

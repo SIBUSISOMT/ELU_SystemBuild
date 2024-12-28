@@ -70,9 +70,21 @@ function redirectToIndex() {
     window.location.href = '/../Front_End/Html_Pages/ManageUsers.html';
 }
 
-function redirectToPropertyOwners() {
-    window.location.href = '/../Front_End/Html_Pages/PropertyOwner.html';
+function redireToOwnershipType() {
+    window.location.href = '/../Front_End/Html_Pages/main.html';
 }
+
+function redirectToProperties() {
+    window.location.href = '/../Front_End/Html_Pages/PropertyRegistration.html';
+}
+
+function redirectToAllocations() {
+    window.location.href = '/../Front_End/Html_Pages/WaterAllocations.html';
+}
+function redirectToWaterUsers() {
+    window.location.href = '/../Front_End/Html_Pages/WaterUserRegistration.html';
+}
+
 
 // Only add event listener if the button exists
 const redirectButton = document.getElementById('redirectButton');

@@ -1,147 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/Front_End/CSS_Pages/Dashboard.css">
-  <link rel="stylesheet" href="/Front_End/CSS_Pages/ManageUsers.css">
-  <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
-  <title>Property Registration</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Front_End/CSS_Pages/Dashboard.css">
+    <link rel="stylesheet" href="/Front_End/CSS_Pages/ManageUsers.css">
+    <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
+    <link rel="icon" href="/Front_End/img/inkomati_logo-removebg-preview.png" type="image/x-icon">
+    <title>Property Registration</title>
 </head>
 <body>
-  <section id="content">
-    <nav>
-      <i class='bx bx-menu'></i>
-      <a href="#" class="nav-link">Categories</a>
-      <form action="#">
-        <div class="form-input">
-          <input type="search" placeholder="Search...">
-          <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
-        </div>
-      </form>
-      <a href="#" class="notification"><i class='bx bxs-bell'></i></a>
-      <a href="#" class="profile"><img src="/Front_End/img/profile.png" alt="Profile"></a>
-    </nav>
+    <section id="content">
+        <nav>
+            <i class='bx bx-menu'></i>
+            <a href="#" class="nav-link">Categories</a>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Search...">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <a href="#" class="notification"><i class='bx bxs-bell'></i></a>
+            <a href="#" class="profile"><img src="/Front_End/img/profile.png" alt="Profile"></a>
+        </nav>
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Property Registration</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="#">Dashboard</a></li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li><a class="active" href="#">Properties</a></li>
+                    </ul>
+                </div>
+            </div>
 
-    <main>
-      <div class="head-title">
-        <div class="left">
-          <h1>Property Registration</h1>
-          <ul class="breadcrumb">
-            <li><a href="#">Dashboard</a></li>
-            <li><i class='bx bx-chevron-right'></i></li>
-            <li><a class="active" href="#">Properties</a></li>
-          </ul>
-        </div>
-      </div>
+            <div class="table-container">
+                <button class="btn-add" id="openModalButton">Register Property</button>
 
-      <div class="table-container">
-        <button class="btn-add" id="openModalButton">Register Property</button>
+                <table>
+                    <thead>
+                        <tr>
+                            
+                            <th>Property Reference</th>
+                            <th>Warms Number</th>
+                            <th>Title Deed Number</th>
+                            <th>Catchment</th>
+                            <th>Sub Catchment</th>
+                            <th>Property Area Name</th>
+                            <th>Property Area Code</th>
+                            <th>Farm Size (HA)</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="propertiesTable">
+                        <!-- Dynamic Data -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </section>
 
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Property Reference</th>
-              <th>Warms Number</th>
-              <th>Title Deed Number</th>
-              <th>Sub Catchment Name</th>
-              <th>Property Area Name</th>
-              <th>Property Area Code</th>
-              <th>Farm Size (HA)</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="propertiesTable">
-            <!-- Dynamic Data -->
-          </tbody>
-        </table>
-      </div>
-    </main>
-  </section>
-
-  <!-- Registration Modal -->
-  <div id="propertyModal" class="modal">
-    <div class="modal-content">
-      <span id="closeModalButton" class="close">&times;</span>
-      <h2>Register Property</h2>
-      <form id="propertyForm">
-        <div class="form-group">
-          <label for="propertyReference">Property Reference</label>
-          <input type="text" id="propertyReference" name="propertyReference" required>
+    <!-- Registration Modal -->
+    <div id="propertyModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModalButton" class="close">&times;</span>
+            <h2>Register Property</h2>
+            <form id="propertyForm">
+                <div class="form-group">
+                    <label for="propertyReference">Property Reference</label>
+                    <input type="text" id="propertyReference" name="propertyReference" required>
+                </div>
+                <div class="form-group">
+                    <label for="warmsNumber">Warms Number</label>
+                    <input type="text" id="warmsNumber" name="warmsNumber" required maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="titleDeedNumber">Title Deed Number</label>
+                    <input type="text" id="titleDeedNumber" name="titleDeedNumber" required maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="catchment">Catchment</label>
+                    <input type="text" id="catchment" name="catchment" required>
+                </div>
+                <div class="form-group">
+                    <label for="subCatchment">Sub Catchment</label>
+                    <input type="text" id="subCatchment" name="subCatchment" required maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="propertyAreaName">Property Area Name</label>
+                    <input type="text" id="propertyAreaName" name="propertyAreaName" required maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="propertyAreaCode">Property Area Code</label>
+                    <input type="text" id="propertyAreaCode" name="propertyAreaCode" required maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label for="farmSizeHA">Farm Size (HA)</label>
+                    <input type="number" step="0.01" id="farmSizeHA" name="farmSizeHA" required>
+                </div>
+                <button type="submit">Register Property</button>
+            </form>
         </div>
-        <div class="form-group">
-          <label for="warmsNumber">Warms Number</label>
-          <input type="text" id="warmsNumber" name="warmsNumber" required>
-        </div>
-        <div class="form-group">
-          <label for="titleDeedNumber">Title Deed Number</label>
-          <input type="text" id="titleDeedNumber" name="titleDeedNumber" required>
-        </div>
-        <div class="form-group">
-          <label for="subCatchmentName">Sub Catchment Name</label>
-          <input type="text" id="subCatchmentName" name="subCatchmentName" required>
-        </div>
-        <div class="form-group">
-          <label for="propertyAreaName">Property Area Name</label>
-          <input type="text" id="propertyAreaName" name="propertyAreaName" required>
-        </div>
-        <div class="form-group">
-          <label for="propertyAreaCode">Property Area Code</label>
-          <input type="text" id="propertyAreaCode" name="propertyAreaCode" required>
-        </div>
-        <div class="form-group">
-          <label for="farmSizeHA">Farm Size (HA)</label>
-          <input type="number" step="0.01" id="farmSizeHA" name="farmSizeHA" required>
-        </div>
-        <button type="submit">Register Property</button>
-      </form>
     </div>
-  </div>
 
-  <!-- Edit Modal -->
-  <div id="editPropertyModal" class="modal">
-    <div class="modal-content">
-      <span id="closeEditModalButton" class="close">&times;</span>
-      <h2>Edit Property</h2>
-      <form id="editPropertyForm">
-        <!-- Same fields as in Register -->
-        <input type="hidden" id="editPropertyId">
-        <div class="form-group">
-          <label for="editPropertyReference">Property Reference</label>
-          <input type="text" id="editPropertyReference" name="propertyReference" required>
+    <!-- Edit Modal -->
+    <div id="editPropertyModal" class="modal">
+        <div class="modal-content">
+            <span id="closeEditModalButton" class="close">&times;</span>
+            <h2>Edit Property</h2>
+            <form id="editPropertyForm">
+                <input type="hidden" id="editPropertyId">
+                <div class="form-group">
+                    <label for="editPropertyReference">Property Reference</label>
+                    <input type="text" id="editPropertyReference" name="propertyReference" required>
+                </div>
+                <div class="form-group">
+                    <label for="editWarmsNumber">Warms Number</label>
+                    <input type="text" id="editWarmsNumber" name="warmsNumber" required maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="editTitleDeedNumber">Title Deed Number</label>
+                    <input type="text" id="editTitleDeedNumber" name="titleDeedNumber" required maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="editCatchment">Catchment</label>
+                    <input type="text" id="editCatchment" name="catchment" required>
+                </div>
+                <div class="form-group">
+                    <label for="editSubCatchment">Sub Catchment</label>
+                    <input type="text" id="editSubCatchment" name="subCatchment" required maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="editPropertyAreaName">Property Area Name</label>
+                    <input type="text" id="editPropertyAreaName" name="propertyAreaName" required maxlength="255">
+                </div>
+                <div class="form-group">
+                    <label for="editPropertyAreaCode">Property Area Code</label>
+                    <input type="text" id="editPropertyAreaCode" name="propertyAreaCode" required maxlength="50">
+                </div>
+                <div class="form-group">
+                    <label for="editFarmSizeHA">Farm Size (HA)</label>
+                    <input type="number" step="0.01" id="editFarmSizeHA" name="farmSizeHA" required>
+                </div>
+                <button type="submit">Save Changes</button>
+            </form>
         </div>
-        <div class="form-group">
-          <label for="editWarmsNumber">Warms Number</label>
-          <input type="text" id="editWarmsNumber" name="warmsNumber" required>
-        </div>
-        <div class="form-group">
-          <label for="editTitleDeedNumber">Title Deed Number</label>
-          <input type="text" id="editTitleDeedNumber" name="titleDeedNumber" required>
-        </div>
-        <div class="form-group">
-          <label for="editSubCatchmentName">Sub Catchment Name</label>
-          <input type="text" id="editSubCatchmentName" name="subCatchmentName" required>
-        </div>
-        <div class="form-group">
-          <label for="editPropertyAreaName">Property Area Name</label>
-          <input type="text" id="editPropertyAreaName" name="propertyAreaName" required>
-        </div>
-        <div class="form-group">
-          <label for="editPropertyAreaCode">Property Area Code</label>
-          <input type="text" id="editPropertyAreaCode" name="propertyAreaCode" required>
-        </div>
-        <div class="form-group">
-          <label for="editFarmSizeHA">Farm Size (HA)</label>
-          <input type="number" step="0.01" id="editFarmSizeHA" name="farmSizeHA" required>
-        </div>
-        <button type="submit">Save Changes</button>
-      </form>
     </div>
-  </div>
 
-  <script src="/Front_End/JS_Scripts/PropertyRegistration.js"></script>
+    <script type="module" src="/Front_End/JS_Scripts/propertyService.js"></script>
+    <script type="module" src="/Front_End/JS_Scripts/propertyRegistration.js"></script>
 </body>
 </html>
-
-

@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/Front_End/CSS_Pages/Dashboard.css">
-  <link rel="stylesheet" href="/Front_End/CSS_Pages/ManageUsers.css">
   <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
-  <title>Indivisual Owned Properties</title>
+  <link href="/Front_End/CSS_Pages/Dashboard.css" rel="stylesheet">
+  <link href="/Front_End/CSS_Pages/ManageUsers.css" rel="stylesheet">
+  <link rel="icon" href="/Front_End/img/inkomati_logo-removebg-preview.png" type="image/x-icon">
+  <title>Ownership Type</title>
 </head>
 <body>
   <section id="content">
@@ -23,12 +24,12 @@
       <a href="#" class="notification"><i class='bx bxs-bell'></i></a>
       <a href="#" class="profile"><img src="/Front_End/img/profile.png" alt="Profile"></a>
     </nav>
-    
+   
     <!-- MAIN CONTENT -->
     <main>
       <div class="head-title">
         <div class="left">
-          <h1>Indivisual Owned Properties</h1>
+          <h1>Select Registered Property Ownership Type</h1>
           <ul class="breadcrumb">
             <li><a href="#">Dashboard</a></li>
             <li><i class='bx bx-chevron-right'></i></li>
@@ -36,67 +37,14 @@
           </ul>
         </div>
       </div>
-      
-      <div class="table-container">
-        <!-- Add Property Owner Button -->
-        <button class="btn-add" id="toggleAddFormButton">Add Property Owner</button>
-        
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Property Reference</th>
-              <th>Title Deed Number</th>
-              <th>Title Deed Holder Name</th>
-              <th>Title Deed Holder Surname</th>
-              <th>Identity Number</th>
-              <th>Catchment</th>
-              <th>Sub-Catchment</th>
-              <th>Residential Area Name</th>
-              <th>Residential Area Code</th>
-              <th>Email</th>
-              <th>Alternate Email</th>
-              <th>Contact Number</th>
-              <th>Alternate Contact Number</th>
-
-              
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="propertyOwnersTable">
-            <!-- Data will be dynamically populated here -->
-          </tbody>
-        </table>
+     
+      <div class="button-container">
+        <button class="styled-button" onclick="toIndividual()">Individual Ownership Type</button>
+        <button class="styled-button" onclick="toGroup()">Group  Ownership Type</button>
+        <button class="styled-button" onclick="toEntreprise()">Entreprise  Ownership Type</button>
       </div>
     </main>
   </section>
-
-  <!-- Modals -->
-
-  <!-- Ownership Type Selection Modal -->
-  <div id="ownershipTypeModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Select Ownership Type</h2>
-      <select id="ownershipTypeSelect">
-        <option value="individual">Individual</option>
-        <option value="entity">Entity/Enterprise</option>
-        <option value="group">Group</option>
-      </select>
-      <button id="selectOwnershipTypeButton">Next</button>
-    </div>
-  </div>
-
-  <!-- Add Property Owner Modal -->
-  <div id="addPropertyOwnerModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <form id="addPropertyOwnerForm">
-        <h2>Add Property Owner</h2>
-        <!-- Form fields will be dynamically injected here -->
-      </form>
-    </div>
-  </div>
 
   <script src="/Front_End/JS_Scripts/PropertyOwner.js"></script>
 </body>

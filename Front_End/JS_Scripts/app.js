@@ -15,14 +15,14 @@ signInBtn.addEventListener("click", () => {
 // Handle Sign-In Form Submission
 document.querySelector('.sign-in-form').addEventListener('submit', async (e) => {
   e.preventDefault();
-  const username = e.target.querySelector('#loginUsername').value;
+  
   const password = e.target.querySelector('#loginPassword').value;
-
+  const email  = e.target.querySelector('#loginEmail').value;
   try {
     const response = await fetch(`${BASE_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password })
+      body: JSON.stringify({ email, password })
     });
 
     if (response.ok) {
