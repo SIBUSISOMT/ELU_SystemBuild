@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://localhost:7030';
 
 // Function to fetch latest property reference
 async function fetchLatestPropertyReference() {
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     propertyOwners.forEach(owner => {
       const row = document.createElement('tr');
       row.innerHTML = `
-    
+        <td>${owner.owner_id}</td>
         <td>${owner.property_reference}</td>
         <td>${owner.title_deed_number}</td>
         <td>${owner.title_deed_holder_name}</td>
@@ -205,7 +205,7 @@ async function showIndividualPropertyOwnerForm() {
       <label for="ConfirmContactNumber">Alternate Contact Number:</label>
       <input type="text" id="ConfirmContactNumber"> <br>
       
-      <button type="submit">Save</button>
+      <button type="submit">Add Property Owner</button>
     `;
   
     const modal = document.getElementById('addPropertyOwnerModal');

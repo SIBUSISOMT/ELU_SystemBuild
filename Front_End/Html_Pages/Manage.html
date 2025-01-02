@@ -4,64 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/Front_End/CSS_Pages/WaterAllocations.css">
+    <link rel="stylesheet" href="/Front_End/CSS_Pages/Allocations.css">
     <link rel="stylesheet" href="/Front_End/CSS_Pages/Dashboard.css">
     <link rel="icon" href="/Front_End/img/inkomati_logo-removebg-preview.png" type="image/x-icon">
-    <title>Water Allocations</title>
-    <style>
-        .toolbar {
-            display: flex;
-            gap: 1rem;
-            padding: 1rem;
-            background-color: #f2f2f2;
-            border-radius: 5px;
-            margin-bottom: 1rem;
-        }
+    <span class="close" onclick="closeModal('entityModal')">&times;</span>
+    <button type="button" class="edit-btn" onclick="toggleEdit('storageForm')"></button>
+    <title>Allocations</title>
 
-        .register-btn {
-            padding: 0.5rem 1rem;
-            background-color: #3C91E6;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .register-btn:hover {
-            background-color: #2d7abc;
-        }
-
-        .ownership-select {
-            padding: 0.5rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            min-width: 200px;
-        }
-
-        .form-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .edit-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: #3C91E6;
-        }
-
-        .edit-btn:hover {
-            color: #2d7abc;
-        }
-
-        input[readonly] {
-            background-color: #f5f5f5;
-            cursor: not-allowed;
-        }
-    </style>
 </head>
 <body>
     <section id="content">
@@ -80,26 +29,92 @@
 
         <main>
             <div class="toolbar">
-                <button class="register-btn">Register Water User</button>
                 <div class="dropdown">
-                    <select class="ownership-select">
-                        <option value="" disabled selected>Select Ownership Type</option>
+                    <i class='bx bx-user-plus'></i>
+                    <select class="user-select" data-type="water-user">
+                        <option value="" disabled selected>Add Water User</option>
                         <option value="individual">Individual</option>
                         <option value="group">Group</option>
                         <option value="entity">Entity/Enterprise</option>
+                    </select>
+                </div>
+                <div class="dropdown">
+                    <i class='bx bx-building-house'></i>
+                    <select class="user-select" data-type="property-owner">
+                        <option value="" disabled selected>Add Property Owner</option>
+                        <option value="individual">Individual</option>
+                        <option value="group">Group</option>
+                        <option value="entity">Entity/Enterprise</option>
+                    </select>
+                </div>
+                <div class="dropdown">
+                    <i class='bx bx-water'></i>
+                    <select class="water-use-select">
+                        <option value="" disabled selected>Allocate Water Use</option>
+                        <option value="SFRA">SFRA</option>
+                        <option value="Irrigation">Irrigation</option>
+                        <option value="Abstruction">Abstruction</option>
+                        <option value="Storage">Storage</option>
                     </select>
                 </div>
             </div>
 
             <div class="head-title">
                 <div class="left">
-                    <h1>Water User Registration/ Allocation</h1>
+                    <h1>Registrations & Allocations</h1>
                     <ul class="breadcrumb">
                         <li><a href="#">Dashboard</a></li>
                         <li><i class='bx bx-chevron-right'></i></li>
                         <li><a class="active" href="#">Water Users</a></li>
                     </ul>
                 </div>
+            </div>
+
+            <!-- Water User Registration Form -->
+
+            <div class="form-container">
+                <div class="form-header">
+                    <h2 class="section-title">Registered Water User</h2>
+                    <button type="button" class="edit-btn" onclick="toggleEdit('waterUserForm')">
+                        <i class='bx bx-edit'></i>
+                    </button>
+                </div>
+                <form id="waterUserForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" name="water_user_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Surname</label>
+                            <input type="text" name="water_user_surname" required>
+                        </div>
+                        <div class="form-group">
+                            <label>User Type</label>
+                            <input type="text" name="water_user_type" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="water_user_email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Alternative Email</label>
+                            <input type="email" name="water_user_alt_email">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Contact Number</label>
+                            <input type="tel" name="water_user_contact" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Alternative Contact</label>
+                            <input type="tel" name="water_user_alt_contact">
+                        </div>
+                    </div>
+                </form>
             </div>
 
             <!-- Storage of Water Form -->
@@ -204,6 +219,7 @@
                 </form>
             </div>
 
+       
             <!-- Irrigation Form -->
             <div class="form-container">
                 <div class="form-header">
@@ -292,8 +308,197 @@
                 </form>
             </div>
 
+
+
+
+
+
+<!-- MODALS -->
+
+
+
+
+    <!-- Entity/Enterprise Modal -->
+<div id="entityModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('entityModal')">&times;</span>
+        <h2>Add New Entity/Enterprise</h2>
+        <form id="entityForm">
+            <div class="form-group">
+                <label for="propertyReference">Property Reference:</label>
+                <input type="text" id="propertyReference" readonly>
+            </div>
+            <div class="form-group">
+                <label for="propertyName">Property Name:</label>
+                <input type="text" id="propertyName" required>
+            </div>
+            <div class="form-group">
+                <label for="enterpriseName">Enterprise Name:</label>
+                <input type="text" id="enterpriseName" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" id="location" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+            </div>
+            <div class="form-group">
+                <label for="altEmail">Alternative Email:</label>
+                <input type="email" id="altEmail">
+            </div>
+            <div class="form-group">
+                <label for="contactNumber">Contact Number:</label>
+                <input type="tel" id="contactNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="altContactNumber">Alternative Contact Number:</label>
+                <input type="tel" id="altContactNumber">
+            </div>
+            <div class="form-group">
+                <label for="areaName">Area Name:</label>
+                <input type="text" id="areaName" required>
+            </div>
+            <div class="form-group">
+                <label for="areaCode">Area Code:</label>
+                <input type="text" id="areaCode" required>
+            </div>
+            <div class="form-group">
+                <label for="propertySize">Property Size (in Hectares):</label>
+                <input type="number" id="propertySize" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <label for="titleDeedNumber">Title Deed Number:</label>
+                <input type="text" id="titleDeedNumber" required>
+            </div>
+            <button type="submit" class="submit-btn">Add Entity</button>
+        </form>
+    </div>
+</div>
+
+<!-- Individual Modal -->
+<div id="individualModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('individualModal')">&times;</span>
+        <h2>Add Individual Property Owner</h2>
+        <form id="individualForm">
+            <div class="form-group">
+                <label for="ownerReference">Property Reference:</label>
+                <input type="text" id="ownerReference" readonly>
+            </div>
+           
+            <div class="form-group">
+                <label for="ownerName">Name:</label>
+                <input type="text" id="ownerName" required>
+            </div>
+            <div class="form-group">
+                <label for="ownerSurname">Surname:</label>
+                <input type="text" id="ownerSurname" required>
+            </div>
+           
+            <div class="form-group">
+                <label for="residentialAreaName">Residential Area Name:</label>
+                <input type="text" id="residentialAreaName" required>
+            </div>
+            <div class="form-group">
+                <label for="residentialAreaCode">Residential Area Code:</label>
+                <input type="text" id="residentialAreaCode" required>
+            </div>
+            <div class="form-group">
+                <label for="idNumber">Identity Number:</label>
+                <input type="text" id="idNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="individualEmail">Email:</label>
+                <input type="email" id="individualEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="individualAltEmail">Alternate Email:</label>
+                <input type="email" id="individualAltEmail">
+            </div>
+            <div class="form-group">
+                <label for="individualContact">Contact Number:</label>
+                <input type="tel" id="individualContact" required>
+            </div>
+            <div class="form-group">
+                <label for="individualAltContact">Alternate Contact Number:</label>
+                <input type="tel" id="individualAltContact">
+            </div>
+            <button type="submit" class="submit-btn">Save</button>
+        </form>
+    </div>
+</div>
+
+<!-- Group Modal -->
+<div id="groupModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal('groupModal')">&times;</span>
+        <h2>Add New Group</h2>
+        <div class="form-group">
+                <label for="groupPropertyRef">Property Reference:</label>
+                <input type="text" id="groupPropertyRef" readonly>
+            </div>
+        <form id="groupForm">
+            <div class="form-group">
+                <label for="groupName">Group Name:</label>
+                <input type="text" id="groupName" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="groupEmail">Email:</label>
+                <input type="email" id="groupEmail" required>
+            </div>
+            <div class="form-group">
+                <label for="groupAltEmail">Alternative Email:</label>
+                <input type="email" id="groupAltEmail">
+            </div>
+            <div class="form-group">
+                <label for="groupContact">Contact Number:</label>
+                <input type="tel" id="groupContact" required>
+            </div>
+            <div class="form-group">
+                <label for="groupAltContact">Alternative Contact:</label>
+                <input type="tel" id="groupAltContact">
+            </div>
+            <div class="form-group">
+                <label for="groupAreaName">Area Name:</label>
+                <input type="text" id="groupAreaName" required>
+            </div>
+            <div class="form-group">
+                <label for="groupAreaCode">Area Code:</label>
+                <input type="text" id="groupAreaCode" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="registrationNumber">Registration Number:</label>
+                <input type="text" id="registrationNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="groupType">Group Type:</label>
+                <input type="text" id="groupType" required>
+            </div>
+            <div class="form-group">
+                <label for="memberCount">Member Count:</label>
+                <input type="number" id="memberCount" required>
+            </div>
+            <button type="submit" class="submit-btn">Add Group</button>
+        </form>
+    </div>
+</div>
+
+<script type="module" src="/Front_End/JS_Scripts/toolbarHandler.js"></script>
+<script type="module" src="/Front_End/JS_Scripts/formSubmissionHandlers.js"></script>
+    <script type="module" src="/Front_End/JS_Scripts/Manage.js"></script>
+</body>
+</html>
+
             <!-- Tables -->
-            <h2 class="section-title">Storage of Water Records</h2>
+            <!-- <h2 class="section-title">Storage of Water Records</h2>
             <div class="table-container">
                 <table id="storageTable">
                     <thead>
@@ -368,33 +573,4 @@
                 </table>
             </div>
         </main>
-    </section>
-
-    <script>
-        window.onload = function() {
-            const forms = ['storageForm', 'abstractionForm', 'irrigationForm', 'sfraForm'];
-            forms.forEach(formId => {
-                const form = document.getElementById(formId);
-                const inputs = form.getElementsByTagName('input');
-                for(let input of inputs) {
-                    input.readOnly = true;
-                }
-            });
-        }
-
-        function toggleEdit(formId) {
-            const form = document.getElementById(formId);
-            const inputs = form.getElementsByTagName('input');
-            const editBtn = form.parentElement.querySelector('.edit-btn i');
-            
-            const isReadonly = inputs[0].readOnly;
-            
-            for(let input of inputs) {
-                input.readOnly = !isReadonly;
-            }
-            
-            editBtn.className = isReadonly ? 'bx bx-save' : 'bx bx-edit';
-        }
-    </script>
-</body>
-</html>
+    </section> -->
